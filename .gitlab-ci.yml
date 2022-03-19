@@ -1,0 +1,47 @@
+image: cs-docker-snapshots-local.esisoj70.emea.nsn-net.net/cs/common/cli/devops-cli:latest
+
+stages:
+  - validation
+  - notify
+
+before_script:
+  - source /bin/ci-variables
+
+validate:
+  stage: validation
+  script:
+    - |-
+      cat > _providers.tf <<EOF
+      provider "azurerm" {
+        version = "~>1.44"
+        features {}
+      }
+      EOF
+    - terraform init
+    - terraform validate
+
+validate azurerm 2:
+  stage: validation
+  script:
+    - |-
+      cat > _providers.tf <<EOF
+      provider "azurerm" {
+        version = "~>2.0"
+        features {}
+      }
+      EOF
+    - terraform init
+    - terraform validate
+  allow_failure: true
+
+check format:
+  stage: validation
+  script:
+    - terraform fmt -check=true
+
+email:
+  stage: notify
+  script:
+    - /bin/ci-mail-release
+  only:
+    - /^v\d+\.\d+\.\d+$/
