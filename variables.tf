@@ -23,6 +23,7 @@ variable "allowed_cidr_blocks" {
 variable "key_vault_id" {
   type        = string
   description = "ID of the key-vault"
+  default = null
 }
 
 variable "encryption_key_name" {
