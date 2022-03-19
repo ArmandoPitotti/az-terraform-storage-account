@@ -28,6 +28,7 @@ variable "key_vault_id" {
 variable "encryption_key_name" {
   type        = string
   description = "Name of the encryption key from the key-vault"
+  default = ""
 }
 
 variable "tags" {
