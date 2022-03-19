@@ -104,40 +104,40 @@ resource "azurerm_key_vault_access_policy" "storage" {
   ]
 }
 
-resource "null_resource" "encryption-key" {
-  count = var.encryption_enabled == true ? 1 : 0
+# resource "null_resource" "encryption-key" {
+#   count = var.encryption_enabled == true ? 1 : 0
 
-  triggers = {
-    encryption_key_name = var.encryption_key_name
-    key_vault_id        = var.key_vault_id
-    azurerm_storage_id  = azurerm_storage_account.storage.id
-  }
+#   triggers = {
+#     encryption_key_name = var.encryption_key_name
+#     key_vault_id        = var.key_vault_id
+#     azurerm_storage_id  = azurerm_storage_account.storage.id
+#   }
 
-  provisioner "local-exec" {
-    command = <<EOT
-      key_vault_name=$(az keyvault list --query "[?id=='${var.key_vault_id}'] | [0].name" --output tsv)
-      key_vault_resource_group=$(az keyvault list --query "[?id=='${var.key_vault_id}'] | [0].resourceGroup" --output tsv)
+#   provisioner "local-exec" {
+#     command = <<EOT
+#       key_vault_name=$(az keyvault list --query "[?id=='${var.key_vault_id}'] | [0].name" --output tsv)
+#       key_vault_resource_group=$(az keyvault list --query "[?id=='${var.key_vault_id}'] | [0].resourceGroup" --output tsv)
 
-      key_vault_uri=$(az keyvault show \
-        --name $key_vault_name \
-        --resource-group $key_vault_resource_group \
-        --query properties.vaultUri \
-        --output tsv)
-      key_version=$(az keyvault key list-versions \
-          --name ${var.encryption_key_name} \
-          --vault-name $key_vault_name \
-          --query [-1].kid \
-          --output tsv | cut -d '/' -f 6)
-      az storage account update \
-          --name ${azurerm_storage_account.storage.name} \
-          --resource-group ${azurerm_storage_account.storage.resource_group_name} \
-          --encryption-key-name ${var.encryption_key_name} \
-          --encryption-key-version $key_version \
-          --encryption-key-source Microsoft.Keyvault \
-          --encryption-key-vault $key_vault_uri
-    EOT
-  }
-}
+#       key_vault_uri=$(az keyvault show \
+#         --name $key_vault_name \
+#         --resource-group $key_vault_resource_group \
+#         --query properties.vaultUri \
+#         --output tsv)
+#       key_version=$(az keyvault key list-versions \
+#           --name ${var.encryption_key_name} \
+#           --vault-name $key_vault_name \
+#           --query [-1].kid \
+#           --output tsv | cut -d '/' -f 6)
+#       az storage account update \
+#           --name ${azurerm_storage_account.storage.name} \
+#           --resource-group ${azurerm_storage_account.storage.resource_group_name} \
+#           --encryption-key-name ${var.encryption_key_name} \
+#           --encryption-key-version $key_version \
+#           --encryption-key-source Microsoft.Keyvault \
+#           --encryption-key-vault $key_vault_uri
+#     EOT
+#   }
+# }
 
 resource "azurerm_monitor_diagnostic_setting" "storage-monitor" {
   count = var.monitoring_enabled == true ? 1 : 0
