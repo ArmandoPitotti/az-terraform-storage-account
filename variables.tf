@@ -28,7 +28,7 @@ variable "key_vault_id" {
 variable "encryption_key_name" {
   type        = string
   description = "Name of the encryption key from the key-vault"
-  default = ""
+  default = null
 }
 
 variable "tags" {
@@ -88,6 +88,7 @@ variable "storage_data_lake_gen2_properties" {
 variable "log_analytics_workspace_id" {
   type        = string
   description = "ID of a Log Analytics Workspace where Diagnostics Data should be sent"
+  default = null
 }
 
 variable "monitoring_enabled" {
