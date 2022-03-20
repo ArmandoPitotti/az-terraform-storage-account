@@ -23,7 +23,6 @@ variable "allowed_cidr_blocks" {
 variable "key_vault_id" {
   type        = string
   description = "ID of the key-vault"
-  default     = null
 }
 
 variable "encryption_key_name" {
@@ -89,7 +88,6 @@ variable "storage_data_lake_gen2_properties" {
 variable "log_analytics_workspace_id" {
   type        = string
   description = "ID of a Log Analytics Workspace where Diagnostics Data should be sent"
-  default = null
 }
 
 variable "monitoring_enabled" {
