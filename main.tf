@@ -60,10 +60,10 @@ resource "null_resource" "storage-lock" {
   }
 }
 
-resource "azurerm_advanced_threat_protection" "storage" {
-  target_resource_id = azurerm_storage_account.storage.id
-  enabled            = true
-}
+# resource "azurerm_advanced_threat_protection" "storage" {
+#   target_resource_id = azurerm_storage_account.storage.id
+#   enabled            = true
+# }
 
 # module "subnets" {
 #   source = "git::ssh://git@gitlabe2.ext.net.nokia.com/cs/common/iac/az-terraform-storage-subnet?ref=v0.4.0"
