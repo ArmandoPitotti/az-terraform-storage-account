@@ -8,7 +8,7 @@ This module provisions a Storage Account within a Vnet.
 
 ```hcl-terraform
 module "storage" {
-  source                      = "git::ssh://gitlabe2.ext.net.nokia.com/cs/common/iac/az-terraform-storage-account?ref=<version>"
+  source                      = "git@github.com:ArmandoPitotti/az-terraform-storage-account.git?ref=<version>"
   storage_account_name        = "terraformstates"
   resource_group_name         = var.resource_group_name
   resource_group_location     = var.resource_group_location
