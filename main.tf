@@ -41,7 +41,7 @@ resource "azurerm_storage_account" "storage" {
   }
 
   network_rules {
-    default_action = "Deny"         # external
+    default_action = "Allow"         # external
     ip_rules       = local.ip_rules # external
   }
 
