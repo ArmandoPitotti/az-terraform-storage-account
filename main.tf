@@ -36,7 +36,7 @@ resource "azurerm_storage_account" "storage" {
   lifecycle {
     ignore_changes = [
       network_rules[0].virtual_network_subnet_ids, # we want to add networks later and do now want to be overwritten by this
-      account_encryption_source,                   # https://github.com/terraform-providers/terraform-provider-azurerm/pull/2046
+      #account_encryption_source,                   # https://github.com/terraform-providers/terraform-provider-azurerm/pull/2046
     ]
   }
 
